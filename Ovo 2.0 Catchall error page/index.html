@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d0f12;
+            --text-color: #f0f0f0;
+            --accent-color: #ffb800; /* Egg yolk yellow */
+            --accent-glow: rgba(255, 184, 0, 0.4);
+            --danger-color: #ff4747;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 184, 0, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(200, 200, 255, 0.05), transparent 25%);
+            position: relative;
+        }
+
+        /* Abstract glowing egg shapes in background */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 500px;
+            background: rgba(255, 184, 0, 0.08);
+            top: -100px;
+            right: -100px;
+        }
+
+        .shape-2 {
+            width: 300px;
+            height: 400px;
+            background: rgba(255, 71, 71, 0.06);
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(50px) rotate(15deg); }
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            padding: 60px 80px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .error-badge {
+            display: inline-block;
+            background: rgba(255, 71, 71, 0.1);
+            color: var(--danger-color);
+            border: 1px solid rgba(255, 71, 71, 0.3);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            align-self: flex-start;
+            box-shadow: 0 0 20px rgba(255, 71, 71, 0.2);
+            text-shadow: 0 0 10px rgba(255, 71, 71, 0.5);
+            animation: pulse-border 2s infinite;
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgba(255, 71, 71, 0.3); box-shadow: 0 0 20px rgba(255, 71, 71, 0.2); }
+            50% { border-color: rgba(255, 71, 71, 0.8); box-shadow: 0 0 30px rgba(255, 71, 71, 0.4); }
+        }
+
+        .status-code {
+            font-size: 6rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff, rgba(255,255,255,0.4));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-variant-numeric: tabular-nums;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .funny-quote {
+            font-style: italic;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 16px;
+            margin-bottom: 30px;
+            color: #ddd;
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            background: var(--accent-color);
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            box-shadow: 0 10px 20px var(--accent-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-home::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-home:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 25px var(--accent-glow);
+        }
+
+        .btn-home:hover::before {
+            left: 100%;
+        }
+
+        .visual-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Error GIF Wrapper - Borderless */
+        .gif-wrapper {
+            width: 100%;
+            height: 100%;
+            min-height: 350px;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            /* Borderless per user request */
+        }
+
+        .gif-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gif-wrapper:hover img {
+            transform: scale(1.03);
+        }
+
+        /* Technical details toggle */
+        .tech-details-container {
+            margin-top: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .tech-toggle {
+            color: #666;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .tech-toggle:hover {
+            color: #888;
+        }
+
+        .tech-content {
+            display: none;
+            margin-top: 10px;
+            padding: 15px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            color: #777;
+            text-align: left;
+            word-break: break-all;
+        }
+
+        .tech-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .server-notice {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #555;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .server-notice strong {
+            color: #888;
+            font-weight: 500;
+        }
+
+        /* Subtle glow effect on status code */
+        .glitch-wrapper {
+            position: relative;
+        }
+
+        @keyframes subtle-glow {
+            0% { text-shadow: 0 0 10px rgba(255,255,255,0.1), 0 0 20px rgba(255,184,0,0.1); }
+            50% { text-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 30px rgba(255,184,0,0.2), 0 0 40px rgba(255,71,71,0.1); }
+            100% { text-shadow: 0 0 10px rgba(255,255,255,0.1), 0 0 20px rgba(255,184,0,0.1); }
+        }
+
+        .glitch-effect {
+            position: relative;
+            animation: subtle-glow 4s infinite ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 40px 24px;
+                border-radius: 24px;
+            }
+            .content {
+                text-align: center;
+                align-items: center;
+            }
+            .error-badge {
+                align-self: center;
+            }
+            .funny-quote {
+                text-align: left;
+            }
+            .btn-home {
+                align-self: center;
+            }
+            .status-code {
+                font-size: 4.5rem;
+            }
+            .gif-wrapper {
+                min-height: 250px;
+                border-radius: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <div class="container">
+        <div class="content">
+            <div class="error-badge">SYSTEM_FAULT_DETECTED</div>
+            
+            <div class="glitch-wrapper">
+                <div class="status-code glitch-effect" id="status-code" data-text="ERROR">ERROR</div>
+            </div>
+            
+            <h1 id="error-title">Something went wrong</h1>
+            
+            <div class="funny-quote" id="error-quote">
+                "Our best hamsters are currently trying to fix the wheel. Please stand by."
+            </div>
+            
+            <p id="error-desc">We encountered an unexpected anomaly in the matrix. Or maybe someone just tripped over a power cord. Either way, this page is unavailable right now.</p>
+            
+            <a href="/" class="btn-home">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Return to Safety
+            </a>
+
+            <div class="tech-details-container">
+                <button class="tech-toggle" onclick="toggleTechDetails()">View technical details (for nerds)</button>
+                <div class="tech-content" id="tech-content">
+                    <div id="tech-code">Error Code: Unknown</div>
+                    <div id="tech-path">Path: Unknown</div>
+                    <div id="tech-agent">User Agent: Unknown</div>
+                </div>
+            </div>
+
+            <div class="server-notice">
+                <span>Hosted by <strong>ovosimpatico</strong></span>
+            </div>
+        </div>
+
+        <div class="visual-container">
+            <div class="gif-wrapper">
+                <!-- Using a visually cool IT Crowd / computer burning GIF as default error state -->
+                <img id="error-gif" src="https://media.giphy.com/media/1F1p6zXsYvh8ivJq06/giphy.gif" alt="Server Error Representation" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Error data dictionary for different HTTP statuses
+        const errorData = {
+            '400': {
+                title: "Bad Request",
+                gifs: ["assets/400/4.gif", "assets/400/2.gif", "assets/400/3.gif", "assets/400/1.gif"],
+                variants: [
+                    {quote: "Your browser just threw up on network layer 7.", desc: "Whatever you just tried to send us was physically painful to parse. Please stop mashing your face against the keyboard."},
+                    {quote: "What even is this payload?", desc: "Did you just try to fax us HTML through a blender? The server is literally crying right now."},
+                    {quote: "Syntax error: PEBKAC.", desc: "Problem Exists Between Keyboard And Chair. The request is malformed and you should feel bad."},
+                    {quote: "My eyes! The goggles do nothing!", desc: "The syntax of your request was toxic enough to melt our data validation layer. Try again, but coherently this time."},
+                    {quote: "Are you speaking Klingon?", desc: "Because our server only speaks HTTP, and whatever you just sent translates to 'please set the datacenter on fire'."},
+                    {quote: "Bad string! Bad!", desc: "*Hits your request with a rolled-up newspaper*. No! We do not send malformed HTTP requests in this house!"},
+                    {quote: "Error 400: User is intoxicated.", desc: "Go home client, you're drunk. You're slurring your headers and stumbling over your query parameters."}
+                ]
+            },
+            '401': {
+                title: "Unauthorized",
+                gifs: ["assets/401/4.gif", "assets/401/2.gif", "assets/401/3.gif", "assets/401/1.gif"],
+                variants: [
+                    {quote: "Nice try, FBI.", desc: "We don't know who you are, but you definitely don't have the sacred passwords to be poking around here. Shoo!"},
+                    {quote: "Who let you in here?", desc: "You lack the magical cookies required to view this content. Go find the login page."},
+                    {quote: "Stranger danger!", desc: "The server does not take candy from strangers without a valid Bearer token."},
+                    {quote: "Identify yourself, fleshling.", desc: "You have provided no credentials. The automated defense turrets are locking on."},
+                    {quote: "You need a VIP pass for this club.", desc: "And you're not on the list. Talk to the bouncer (the authentication server)."},
+                    {quote: "Error: No respect.", desc: "You barged in without even logging in. The sheer audacity."},
+                    {quote: "Authentication failed. Or rather, missing entirely.", desc: "It's bold of you to assume we just hand out data to anybody passing by on the internet."}
+                ]
+            },
+            '403': {
+                title: "Forbidden",
+                gifs: ["assets/403/4.gif", "assets/403/2.gif", "assets/403/3.gif", "assets/403/1.gif"],
+                variants: [
+                    {quote: "I'm sorry Dave, I'm afraid I can't do that.", desc: "You have somehow stumbled into a dimension you lack the security clearance for. We have already dispatched the cyber-hounds."},
+                    {quote: "Look, but don't touch. Actually, don't even look.", desc: "You're authenticated, but apparently not cool enough to view this specific page. Go back to the shallow end."},
+                    {quote: "Classified Intel.", desc: "Reading this file requires level 5 clearance. Memory wipe sequence initiated in 3... 2..."},
+                    {quote: "Denied! Mutts step aside.", desc: "The server squinted at your permissions and aggressively shook its head. You aren't allowed here."},
+                    {quote: "You touched the laser tripwire.", desc: "An alarm is currently sounding at Ovosimpatico HQ. Just kidding. But seriously, you can't be here."},
+                    {quote: "Access rigorously, aggressively, and entirely denied.", desc: "We don't even want you standing near the URL of this page. Shoo!"},
+                    {quote: "Admin privileges: Missing.", desc: "You need to be an absolute overlord to view this. You are merely a peasant."}
+                ]
+            },
+            '404': {
+                title: "Page Not Found",
+                gifs: ["assets/404/4.gif", "assets/404/2.gif", "assets/404/3.gif", "assets/404/1.gif"],
+                variants: [
+                    {quote: "Congratulations, you found the void.", desc: "The file you're looking for doesn't exist. It either never existed, or our server ate it out of sheer spite."},
+                    {quote: "We ain't found *bleep*!", desc: "You've drifted into uncharted digital territory. There's nothing out here but dust and dead links."},
+                    {quote: "Hide and seek champion.", desc: "This page is incredibly good at hiding. In fact, it might not even exist."},
+                    {quote: "You have reached the end of the internet.", desc: "Please turn back now. The abyss is staring back at you."},
+                    {quote: "Error 404: Brain not found.", desc: "Whoever linked you here made a massive mistake, or you can't type URLs correctly. Probably both."},
+                    {quote: "We searched behind the couch.", desc: "We looked everywhere. The database, standard output, even under the server racks. It's just gone."},
+                    {quote: "Oops. Reality has shifted.", desc: "The page you are looking for has been erased from this timeline. Try another universe."}
+                ]
+            },
+            '405': {
+                title: "Method Not Allowed",
+                gifs: ["assets/405/4.gif", "assets/405/2.gif", "assets/405/3.gif", "assets/405/1.gif"],
+                variants: [
+                    {quote: "You can't POST here, this is a Wendy's.", desc: "You tried an HTTP verb that is strictly outlawed in these parts. Stick to the allowed methods or face the consequences."},
+                    {quote: "Stop trying to make fetch happen.", desc: "Whatever method you used, it's not going to happen. Read the documentation."},
+                    {quote: "Do you kiss your mother with that HTTP verb?", desc: "We only accept polite, appropriate methods here. Clean up your act."},
+                    {quote: "That's not how any of this works.", desc: "You can't PUT a GET. You can't DELETE a POST. What are you even trying to do?"},
+                    {quote: "Wrong tool for the job.", desc: "You're trying to hammer in a screw. The server politely refuses to participate in this madness."},
+                    {quote: "We don't do that here.", desc: "The server crossed its arms and shook its head furiously. That verb is forbidden."},
+                    {quote: "Action rejected by the physics engine.", desc: "Attempting to use this method would cause the universe to fold in on itself."}
+                ]
+            },
+            '429': {
+                title: "Too Many Requests",
+                gifs: ["assets/429/4.gif", "assets/429/2.gif", "assets/429/3.gif", "assets/429/1.gif"],
+                variants: [
+                    {quote: "CHILL. OUT. DUDE.", desc: "You're hitting the server faster than a caffeinated squirrel. Take a deep breath and wait a minute before clicking again, psycho."},
+                    {quote: "Calm down, Speedy Gonzales.", desc: "We get it, you like the site. But our poor little server node is sweating profusely. Give it a minute."},
+                    {quote: "Please stop clicking. It hurts.", desc: "The server is currently curled up in a fetal position begging for mercy from your rate of requests."},
+                    {quote: "Whoa turbo, tap the brakes.", desc: "You've exceeded the speed limit of the information superhighway. Pull over and wait."},
+                    {quote: "Are you a bot?", desc: "Because no human clicks that fast unless they're playing Starcraft. Prove your humanity by waiting 60 seconds."},
+                    {quote: "We're out of breath.", desc: "You asked for too many things at once. The server needs to grab an inhaler."},
+                    {quote: "DDoS mitigation active.", desc: "If you refresh this page one more time I swear to god I will turn this router around."}
+                ]
+            },
+            '500': {
+                title: "Internal Server Error",
+                gifs: ["assets/500/4.gif", "assets/500/2.gif", "assets/500/3.gif", "assets/500/1.gif"],
+                variants: [
+                    {quote: "LMAO everything is on fire.", desc: "Our server just had a catastrophic mental breakdown. Somewhere, a developer is currently sobbing under their desk."},
+                    {quote: "Task failed successfully.", desc: "The code executed perfectly right up until the exact moment it spectacularly exploded in our faces."},
+                    {quote: "We spilled coffee on the motherboard.", desc: "Something went terribly, horribly wrong on our end. Please pretend you didn't see this."},
+                    {quote: "A fatal exception has occurred at 0xDEADBEEF.", desc: "The server tied its own shoelaces together and tripped over itself. We're dispatching medics."},
+                    {quote: "It's dead, Jim.", desc: "The backend process has kicked the bucket, shuffled off its mortal coil, and joined the choir invisible."},
+                    {quote: "Spaghetti code strikes again.", desc: "Our hastily written garbage code has finally collapsed under its own weight. RIP."},
+                    {quote: "The gerbils stopped running.", desc: "The tiny rodents powering our servers have gone on strike. Negotiations are ongoing."}
+                ]
+            },
+            '502': {
+                title: "Bad Gateway",
+                gifs: ["assets/502/4.gif", "assets/502/2.gif", "assets/502/3.gif", "assets/502/1.gif"],
+                variants: [
+                    {quote: "The upstream server is drunk again.", desc: "We asked the downstream backend for your data, and it responded with absolute garbage. We're pointing fingers."},
+                    {quote: "Lost in translation.", desc: "The proxy server asked the application server a question, and it replied with a recipe for soup."},
+                    {quote: "The bridge is out!", desc: "The connection between our edge nodes and the core logic has been spectacularly severed."},
+                    {quote: "Finger-pointing protocol activated.", desc: "Nginx says it's Python's fault. Python says it's Node's fault. Node is crying in the corner."},
+                    {quote: "Mutiny on the backend.", desc: "The application servers are refusing to speak to the proxy servers. It's a whole dramatic thing."},
+                    {quote: "The pipe is clogged.", desc: "We tried to pipe your request to the backend, but it got stuck somewhere in the network plumbing."},
+                    {quote: "A terrible misunderstanding.", desc: "The gateway received a response it fundamentally disagreed with on a philosophical level."}
+                ]
+            },
+            '503': {
+                title: "Service Unavailable",
+                gifs: ["assets/503/4.gif", "assets/503/2.gif", "assets/503/3.gif", "assets/503/1.gif"],
+                variants: [
+                    {quote: "We're currently duct-taping the servers back together.", desc: "Maintenance time! Or the server literally exploded. Either way, come back later when the smoke clears."},
+                    {quote: "Out to lunch.", desc: "The servers have unionized and are currently taking their legally mandated 15-minute break."},
+                    {quote: "BRB. Doing heavy lifting.", desc: "We're either deploying new code, or desperately rolling back a terrible mistake we made 5 minutes ago."},
+                    {quote: "Closed for remodeling.", desc: "Please pardon our dust. The hamsters are installing new SSDs."},
+                    {quote: "Capacity reached.", desc: "The club is full. You gotta wait outside in the rain until someone leaves."},
+                    {quote: "We unplugged it and plugged it back in.", desc: "It's currently booting up. Hopefully. If not, we might need a bigger hammer."},
+                    {quote: "Self-destruct sequence active.", desc: "Just kidding. But we are offline right now. Check back later!"}
+                ]
+            },
+            '504': {
+                title: "Gateway Timeout",
+                gifs: ["assets/504/4.gif", "assets/504/2.gif", "assets/504/3.gif", "assets/504/1.gif"],
+                variants: [
+                    {quote: "Been waiting so long I grew a beard.", desc: "The backend server took one look at your request and decided to go take a nap instead of replying."},
+                    {quote: "Hello? Is anybody in there?", desc: "We knocked on the application server's door for 60 seconds and nobody answered. We gave up."},
+                    {quote: "The connection has died of old age.", desc: "Whatever you asked it to do, it's taking centuries. We cut the cord. Try something simpler."},
+                    {quote: "Ghosted by our own backend.", desc: "It read the request, left us on 'read', and never replied. Typical toxic behavior."},
+                    {quote: "Time's up, pencils down.", desc: "The server ran out of time to compute the answer. It gets an F for this request."},
+                    {quote: "Zzz... Zzz... Zzz...", desc: "The worker process handling your request fell asleep at the wheel."},
+                    {quote: "Infinite loop detected? Maybe?", desc: "We don't know what it's doing back there, but it's taking forever. We pulled the plug."}
+                ]
+            },
+            'ERROR': {
+                title: "Cosmic Ray Anomaly",
+                gifs: ["assets/error/4.gif", "assets/error/2.gif", "assets/error/3.gif", "assets/error/1.gif"],
+                variants: [
+                    {quote: "I literally have no idea what just happened.", desc: "An error so incredibly bizarre occurred that we don't even have a status code for it. Did a solar flare hit the datacenter?"},
+                    {quote: "Well, this is awkward.", desc: "Our system didn't just crash, it evaporated. We're not even sure what error code this is."},
+                    {quote: "The matrix is glitching.", desc: "You have somehow broken reality. Please stay where you are, agents are on their way."},
+                    {quote: "undefined is not a function.", desc: "Something went so profoundly wrong that JavaScript started leaking into the HTML. Gross."},
+                    {quote: "You divided by zero, didn't you?", desc: "You tried to calculate the absolute limits of the universe, and now everything is broken."},
+                    {quote: "Help.", desc: "Just... help. The server doesn't know what's going on. We don't know what's going on. It's anarchy."},
+                    {quote: "A tear in the space-time continuum.", desc: "This error is so rare and undocumented that we are genuinely frightened. Hold me."}
+                ]
+            }
+        };
+
+        // Determine error code
+        function detectError() {
+            // Check URL parameters (e.g. ?code=404 or ?status=500)
+            const urlParams = new URLSearchParams(window.location.search);
+            let code = urlParams.get('status') || urlParams.get('code') || urlParams.get('error');
+
+            // Fallback to checking the pathname if we are doing clever rewrites (e.g. /404.html)
+            if (!code) {
+                const pathMatch = window.location.pathname.match(/\/(\d{3})(?:\.html|\/|$)/);
+                if (pathMatch) code = pathMatch[1];
+            }
+
+            // Fallback for Nginx Server Side Includes (SSI) if enabled
+            // Nginx can output the status code here, replacing the comment
+            const ssiStatus = '<!--# echo var="status" -->';
+            if (ssiStatus !== '' && !ssiStatus.includes('!--')) {
+                // Validate it's a number to ensure SSI actually fired
+                if(!isNaN(parseInt(ssiStatus))) {
+                    code = ssiStatus;
+                }
+            }
+
+            return code && errorData[code] ? code : 'ERROR';
+        }
+
+        // Apply content to DOM
+        function populatePage() {
+            const code = detectError();
+            const data = errorData[code] || errorData['ERROR'];
+
+            // Header Elements
+            const sc = document.getElementById('status-code');
+            sc.textContent = code;
+            sc.setAttribute('data-text', code);
+            
+            document.getElementById('error-title').textContent = data.title;
+            
+            // Randomly select a variant
+            const variant = data.variants[Math.floor(Math.random() * data.variants.length)];
+            
+            document.getElementById('error-quote').textContent = variant.quote;
+            document.getElementById('error-desc').textContent = variant.desc;
+            
+            let finalGif = "https://media.giphy.com/media/1F1p6zXsYvh8ivJq06/giphy.gif"; // Fallback URL
+            if (data.gifs && data.gifs.length > 0) {
+                finalGif = data.gifs[Math.floor(Math.random() * data.gifs.length)];
+            } else if (data.gif) {
+                finalGif = data.gif;
+            }
+            document.getElementById('error-gif').src = finalGif;
+
+            // Optional override if the URL provided a custom message
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.get('msg')) {
+                document.getElementById('error-desc').textContent = urlParams.get('msg');
+            }
+
+            // Fill technical details
+            document.getElementById('tech-code').textContent = `Error Code: ${code}`;
+            document.getElementById('tech-path').textContent = `Failed Path: ${window.location.pathname}${window.location.search}`;
+            document.getElementById('tech-agent').textContent = `User Agent: ${navigator.userAgent}`;
+        }
+
+        // Toggle technical details
+        window.toggleTechDetails = function() {
+            const el = document.getElementById('tech-content');
+            el.classList.toggle('active');
+        };
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', populatePage);
+    </script>
+</body>
+</html>
